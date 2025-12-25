@@ -129,6 +129,18 @@ header p {
 }
 
 /* Owner */
+.owner-section {
+  text-align: center;
+}
+
+.owner-name {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-top: 10px;
+  text-align: center;
+}
+
 .owner-img {
   width: 150px;
   height: 150px;
