@@ -39,7 +39,7 @@
     </div>
 
     <div class="info-card">
-      <h2><i class="fas fa-user-tie"></i> Meet Our Owner</h2>
+      <h2><i class="fas fa-user-tie"></i> Meet The Owner</h2>
       <div class="owner-section" id="ownerInfo">
         <div class="loading">
           <i class="fas fa-spinner fa-spin"></i>
@@ -50,11 +50,6 @@
 
     <!-- Slider Dots -->
     <div class="slider-dots" id="sliderDots"></div>
-
-    <!-- Swipe Indicator -->
-    <div class="swipe-indicator">
-      <i class="fas fa-hand-pointer"></i> Swipe to view gallery
-    </div>
   </div>
 
 <script>
@@ -76,7 +71,8 @@ async function loadShopData() {
         <i class="fas fa-envelope"></i>
         <a href="mailto:${data.email}">${data.email}</a>
       </div>
-      <div class="btn-container">
+
+      <div class="btn-container" style="display:flex; justify-content:center; gap:12px;">
         <a class="btn" href="${data.mapLink}" target="_blank">
           <i class="fas fa-map-marker-alt"></i> Find Us
         </a>
