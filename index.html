@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Microwave Repair Shop</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Slider -->
+  <div class="bg-slider">
+    <div class="slider-track" id="sliderTrack"></div>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay"></div>
+
+  <!-- Content -->
+  <div class="content">
+    <header>
+      <h1>Microwave Repair Shop</h1>
+      <p>Fast • Reliable • Affordable Services</p>
+    </header>
+
+    <div class="info-card">
+      <h2><i class="fas fa-address-book"></i> Contact Information</h2>
+      <div id="contactInfo">
+        <div class="loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading contact information...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h2><i class="fas fa-user-tie"></i> Meet Our Owner</h2>
+      <div class="owner-section" id="ownerInfo">
+        <div class="loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>Loading owner information...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slider Dots -->
+    <div class="slider-dots" id="sliderDots"></div>
+
+    <!-- Swipe Indicator -->
+    <div class="swipe-indicator">
+      <i class="fas fa-hand-pointer"></i> Swipe to view gallery
+    </div>
+  </div>
+
+<script>
+async function loadShopData() {
+  try {
+    const response = await fetch('shop-data.json');
+    const data = await response.json();
+
+    document.getElementById('contactInfo').innerHTML = `
+      <div class="contact-item">
+        <i class="fas fa-phone"></i>
+        <a href="tel:${data.phone}">${data.phone}</a>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-map-marker-alt"></i>
+        <span>${data.address}</span>
+      </div>
+      <div class="contact-item">
+        <i class="fas fa-envelope"></i>
+        <a href="mailto:${data.email}">${data.email}</a>
+      </div>
+      <div class="btn-container">
+        <a class="btn" href="${data.mapLink}" target="_blank">
+          <i class="fas fa-map-marker-alt"></i> Find Us
+        </a>
+        <a class="btn" href="whatsapp://send?text=Contact ${data.shopName} at ${data.phone}">
+          <i class="fab fa-whatsapp"></i> Share
+        </a>
+      </div>
+    `;
+
+    document.getElementById('ownerInfo').innerHTML = `
+      <img src="${data.ownerImage}" class="owner-img" alt="Owner">
+      <p>${data.ownerName}</p>
+    `;
+
+    document.querySelector('header h1').textContent = data.shopName;
+    document.title = data.shopName;
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+loadShopData();
+
+const images = [
+  "images/img1.jpeg",
+  "images/img2.jpg",
+  "images/3.jpeg",
+  "images/4.jpeg",
+  "images/5.jpeg",
+  "images/6.jpeg"
+];
+
+const sliderTrack = document.getElementById("sliderTrack");
+const sliderDots = document.getElementById("sliderDots");
+let currentIndex = 0;
+let autoSlide;
+
+images.forEach((src, i) => {
+  sliderTrack.innerHTML += `<div class="slide"><img src="${src}"></div>`;
+  sliderDots.innerHTML += `<div class="dot ${i === 0 ? 'active' : ''}" onclick="goToSlide(${i})"></div>`;
+});
+
+function updateSlider() {
+  sliderTrack.style.transform = `translateX(-${currentIndex * window.innerWidth}px)`;
+  document.querySelectorAll('.dot').forEach((d, i) =>
+    d.classList.toggle('active', i === currentIndex)
+  );
+}
+
+function goToSlide(i) {
+  currentIndex = i;
+  updateSlider();
+  resetAutoSlide();
+}
+
+function nextSlide() {
+  currentIndex = (currentIndex + 1) % images.length;
+  updateSlider();
+}
+
+function resetAutoSlide() {
+  clearInterval(autoSlide);
+  autoSlide = setInterval(nextSlide, 3000);
+}
+
+window.addEventListener('resize', updateSlider);
+resetAutoSlide();
+</script>
+
+</body>
+</html>
